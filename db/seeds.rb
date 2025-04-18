@@ -26,7 +26,7 @@ pm = User.create!(
 # Create regular member
 member = User.create!(
   name: "Team Member",
-  email: "member@example.com", 
+  email: "member@example.com",
   password: "password123",
   role: "member"
 )
@@ -103,5 +103,3 @@ ProjectEvent.create!(
   event_type: "comment",
   content: "We're blocked due to issues with the legacy database structure."
 )
-
-puts "Seed data created successfully!"

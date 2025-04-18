@@ -7,7 +7,7 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
 
-require:
+plugins:
   - rubocop-rails
   - rubocop-rspec
 
@@ -59,6 +59,10 @@ Rails:
 Rails/FilePath:
   Enabled: false
 
+Rails/StrongParametersExpect:
+  Exclude:
+    - 'app/controllers/**/*'
+
 # RSpec
 RSpec/MultipleExpectations:
   Max: 10
@@ -68,3 +72,7 @@ RSpec/ExampleLength:
 
 RSpec/NestedGroups:
   Max: 5
+
+RSpec/LetSetup:
+  Exclude:
+    - 'spec/system/**/*'

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "/projects", type: :request do
   let(:admin) { User.create!(name: 'Admin User', email: 'admin_test@example.com', password: 'password123', role: 'admin') }
   let(:member) { User.create!(name: 'Member User', email: 'member_test@example.com', password: 'password123', role: 'member') }
-  
+
   let(:valid_attributes) {
     { title: "Test Project", description: "A test project description", status: "Draft" }
   }
@@ -17,7 +17,7 @@ RSpec.describe "/projects", type: :request do
       get projects_url
       expect(response).to redirect_to(new_user_session_path)
     end
-    
+
     it "renders a successful response when authenticated" do
       sign_in admin
       get projects_url
@@ -31,7 +31,7 @@ RSpec.describe "/projects", type: :request do
       get project_url(project)
       expect(response).to redirect_to(new_user_session_path)
     end
-    
+
     it "renders a successful response when authenticated" do
       sign_in admin
       project = Project.create!(valid_attributes)
@@ -45,7 +45,7 @@ RSpec.describe "/projects", type: :request do
       get new_project_url
       expect(response).to redirect_to(new_user_session_path)
     end
-    
+
     it "renders a successful response when authenticated" do
       sign_in admin
       get new_project_url
@@ -60,7 +60,7 @@ RSpec.describe "/projects", type: :request do
         expect {
           post projects_url, params: { project: valid_attributes }
         }.to change(Project, :count).by(1)
-        
+
         expect(response).to redirect_to(project_url(Project.last))
       end
     end
@@ -70,8 +70,8 @@ RSpec.describe "/projects", type: :request do
         sign_in admin
         expect {
           post projects_url, params: { project: invalid_attributes }
-        }.to change(Project, :count).by(0)
-        
+        }.not_to change(Project, :count)
+
         expect(response).to have_http_status(:unprocessable_entity)
       end
     end
@@ -79,39 +79,39 @@ RSpec.describe "/projects", type: :request do
 
   describe "PATCH /projects/:id/status" do
     let(:project) { Project.create!(valid_attributes) }
-    
-    context "as admin" do
+
+    context "when user is admin" do
       it "updates the project status" do
         sign_in admin
         patch update_project_status_path(project), params: { status: "In Progress" }
-        
+
         project.reload
         expect(project.status).to eq("In Progress")
         expect(response).to redirect_to(project_url(project))
       end
-      
+
       it "creates a status_change event" do
         sign_in admin
         expect {
           patch update_project_status_path(project), params: { status: "In Progress" }
         }.to change(ProjectEvent, :count).by(1)
-        
+
         event = ProjectEvent.last
         expect(event.event_type).to eq("status_change")
         expect(event.previous_status).to eq("Draft")
         expect(event.new_status).to eq("In Progress")
       end
     end
-    
-    context "as regular member" do
+
+    context "when user is regular member" do
       it "does not allow status changes" do
         sign_in member
         patch update_project_status_path(project), params: { status: "In Progress" }
-        
+
         project.reload
         expect(project.status).not_to eq("In Progress")
         expect(response).to redirect_to(project_url(project))
-        expect(flash[:alert]).to match(/not authorized/)
+        expect(flash[:alert]).to eq(I18n.t("projects.authorization.failure"))
       end
     end
   end

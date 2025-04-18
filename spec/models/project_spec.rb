@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Project, type: :model do
   describe "validations" do
     it "is valid with valid attributes" do
-      project = Project.new(
+      project = described_class.new(
         title: 'Test Project',
         description: 'Test Description',
         status: 'Draft'
@@ -12,7 +12,7 @@ RSpec.describe Project, type: :model do
     end
 
     it "is not valid without a title" do
-      project = Project.new(
+      project = described_class.new(
         title: nil,
         description: 'Test Description',
         status: 'Draft'
@@ -23,12 +23,12 @@ RSpec.describe Project, type: :model do
 
     it "requires a status" do
       # Test the validation presence directly
-      validator = Project.validators_on(:status).find { |v| v.is_a?(ActiveRecord::Validations::PresenceValidator) }
+      validator = described_class.validators_on(:status).find { |v| v.is_a?(ActiveRecord::Validations::PresenceValidator) }
       expect(validator).to be_present
     end
 
     it "is not valid with an invalid status" do
-      project = Project.new(
+      project = described_class.new(
         title: 'Test Project',
         description: 'Test Description',
         status: 'Invalid Status'
@@ -47,14 +47,14 @@ RSpec.describe Project, type: :model do
 
   describe "defaults" do
     it "sets status to Draft by default" do
-      project = Project.new(title: 'Test Project')
+      project = described_class.new(title: 'Test Project')
       expect(project.status).to eq 'Draft'
     end
   end
 
   describe "constants" do
     it "defines valid statuses" do
-      expect(Project::STATUSES).to eq [ "Draft", "In Progress", "Blocked", "Completed" ]
+      expect(described_class::STATUSES).to eq [ "Draft", "In Progress", "Blocked", "Completed" ]
     end
   end
 end

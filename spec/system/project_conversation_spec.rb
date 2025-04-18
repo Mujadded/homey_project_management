@@ -11,7 +11,7 @@ RSpec.describe "Project Conversations", type: :system do
   end
 
   describe "Project view" do
-    context "as admin user" do
+    context "when signed in as admin user" do
       it "allows viewing and commenting on projects" do
         visit new_user_session_path
 
@@ -64,7 +64,7 @@ RSpec.describe "Project Conversations", type: :system do
       end
     end
 
-    context "as member user" do
+    context "when signed in as member user" do
       it "allows viewing and commenting but not changing status" do
         # Sign in first
         visit new_user_session_path

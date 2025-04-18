@@ -10,9 +10,9 @@ class ProjectEventsController < ApplicationController
     )
 
     if @project_event.save
-      redirect_to @project, notice: "Comment was successfully added."
+      redirect_to @project, notice: t(".success")
     else
-      redirect_to @project, alert: "Failed to add comment."
+      redirect_to @project, alert: t(".failure")
     end
   end
 
@@ -23,6 +23,7 @@ class ProjectEventsController < ApplicationController
   end
 
   def project_event_params
-    params.require(:project_event).permit(:content)
+    permitted = [ :content ]
+    params.require(:project_event).permit(*permitted)
   end
 end

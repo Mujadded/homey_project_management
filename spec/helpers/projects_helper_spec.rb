@@ -22,4 +22,4 @@ RSpec.describe ProjectsHelper, type: :helper do
       expect(helper.status_color("Unknown")).to eq("bg-gray-200 text-gray-800 border border-gray-300")
     end
   end
-end 
+end

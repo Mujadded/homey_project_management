@@ -1,6 +1,6 @@
 # Pagy initializer file
 # Customize as needed
-require 'pagy/extras/bootstrap'
+require "pagy/extras/bootstrap"
 
 # Set frontend
 Pagy::DEFAULT[:frontend] = :bootstrap
@@ -12,4 +12,4 @@ Pagy::DEFAULT[:items] = 10
 Pagy::DEFAULT[:size] = 10
 
 # Load bootstrap Nav helper
-require 'pagy/extras/bootstrap' 
+require "pagy/extras/bootstrap"

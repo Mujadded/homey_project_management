@@ -35,6 +35,8 @@ jobs:
 
     - name: Install dependencies
       run: |
+        bundle config unset deployment
+        bundle config unset frozen
         bundle install
         
     - name: Set up database
@@ -54,9 +56,9 @@ jobs:
         
     - name: Run linters
       run: |
-        bundle exec rubocop
+        bundle exec rubocop --fail-level fatal
 
-  # Deployment job example for Heroku (will comment out until needed)
+  # Deployment job example for Heroku (commented out until needed)
   # deploy:
   #   needs: test
   #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
@@ -71,4 +73,3 @@ jobs:
   #         heroku_app_name: "homey-project-mgmt-prod"
   #         heroku_email: ${{ secrets.HEROKU_EMAIL }}
   #         
-

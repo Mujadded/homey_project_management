@@ -15,22 +15,22 @@ class ProjectsController < ApplicationController
     @project = Project.new
   end
 
+  def edit
+  end
+
   def create
     @project = Project.new(project_params)
 
     if @project.save
-      redirect_to @project, notice: "Project was successfully created."
+      redirect_to @project, notice: t(".success")
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-  end
-
   def update
     if @project.update(project_params)
-      redirect_to @project, notice: "Project was successfully updated."
+      redirect_to @project, notice: t(".success")
     else
       render :edit, status: :unprocessable_entity
     end
@@ -38,7 +38,7 @@ class ProjectsController < ApplicationController
 
   def destroy
     @project.destroy
-    redirect_to projects_path, notice: "Project was successfully deleted."
+    redirect_to projects_path, notice: t(".success")
   end
 
   def update_status
@@ -54,9 +54,9 @@ class ProjectsController < ApplicationController
         new_status: new_status
       )
 
-      redirect_to @project, notice: "Project status was successfully updated."
+      redirect_to @project, notice: t(".success")
     else
-      redirect_to @project, alert: "Failed to update project status."
+      redirect_to @project, alert: t(".failure")
     end
   end
 
@@ -67,12 +67,13 @@ class ProjectsController < ApplicationController
   end
 
   def project_params
-    params.require(:project).permit(:title, :description, :status)
+    permitted = [ :title, :description, :status ]
+    params.require(:project).permit(*permitted)
   end
 
   def authorize_admin_or_pm!
     unless current_user.admin? || current_user.pm?
-      redirect_to @project, alert: "You are not authorized to perform this action."
+      redirect_to @project, alert: t("projects.authorization.failure")
     end
   end
 end

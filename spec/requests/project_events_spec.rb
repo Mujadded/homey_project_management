@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "/project_events", type: :request do
   let(:user) { User.create!(name: 'Test User', email: 'test_events@example.com', password: 'password123', role: 'member') }
   let(:project) { Project.create!(title: 'Test Project', description: 'Test Description', status: 'Draft') }
-  
+
   let(:valid_attributes) {
     { content: "This is a test comment" }
   }
@@ -19,17 +19,17 @@ RSpec.describe "/project_events", type: :request do
         expect(response).to redirect_to(new_user_session_path)
       end
     end
-    
+
     context "with valid parameters" do
       it "creates a new comment and redirects to the project" do
         sign_in user
         expect {
           post project_project_events_url(project), params: { project_event: valid_attributes }
         }.to change(ProjectEvent, :count).by(1)
-        
+
         expect(response).to redirect_to(project_url(project))
-        expect(flash[:notice]).to match(/Comment was successfully added/)
-        
+        expect(flash[:notice]).to eq(I18n.t("project_events.create.success"))
+
         # Verify the comment details
         event = ProjectEvent.last
         expect(event.user).to eq(user)
@@ -44,10 +44,10 @@ RSpec.describe "/project_events", type: :request do
         sign_in user
         expect {
           post project_project_events_url(project), params: { project_event: invalid_attributes }
-        }.to change(ProjectEvent, :count).by(0)
-        
+        }.not_to change(ProjectEvent, :count)
+
         expect(response).to redirect_to(project_url(project))
-        expect(flash[:alert]).to match(/Failed to add comment/)
+        expect(flash[:alert]).to eq(I18n.t("project_events.create.failure"))
       end
     end
   end

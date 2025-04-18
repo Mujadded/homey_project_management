@@ -15,14 +15,28 @@ class ApplicationController < ActionController::Base
 
   def admin_or_pm_required
     unless current_user && (current_user.admin? || current_user.pm?)
-      flash[:alert] = "You are not authorized to perform this action."
+      flash[:alert] = t("authorization.failure")
       redirect_to root_path
     end
   end
 
   def admin_required
     unless current_user && current_user.admin?
-      flash[:alert] = "You are not authorized to perform this action."
+      flash[:alert] = t("authorization.failure")
+      redirect_to root_path
+    end
+  end
+
+  def authorize_admin!
+    unless current_user && current_user.admin?
+      flash[:alert] = t("authorization.failure")
+      redirect_to root_path
+    end
+  end
+
+  def authorize_admin_or_pm!
+    unless current_user && (current_user.admin? || current_user.pm?)
+      flash[:alert] = t("authorization.failure")
       redirect_to root_path
     end
   end
