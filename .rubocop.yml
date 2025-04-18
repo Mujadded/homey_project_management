@@ -69,6 +69,8 @@ RSpec/MultipleExpectations:
 
 RSpec/ExampleLength:
   Max: 20
+  Exclude:
+  - 'spec/system/**/*'
 
 RSpec/NestedGroups:
   Max: 5

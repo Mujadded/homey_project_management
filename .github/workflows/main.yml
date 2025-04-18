@@ -85,16 +85,17 @@ jobs:
           heroku_app_name: "homey-project-mgmt-prod"
           heroku_email: ${{ secrets.HEROKU_EMAIL }}
           
-      - name: Set up database addon and run migrations
+      - name: Configure database and run migrations
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: "homey-project-mgmt-prod"
         run: |
-          # Check if PostgreSQL already exists
-          if ! heroku addons:info postgresql --app "$HEROKU_APP_NAME" &> /dev/null; then
-            echo "Creating PostgreSQL addon"
-            heroku addons:create heroku-postgresql:essential-0 --app "$HEROKU_APP_NAME"
-          fi
+          # Ensure PostgreSQL addon is provisioned
+          heroku addons:create heroku-postgresql:essential-0 --app "$HEROKU_APP_NAME" || true
+          
+          # Set DATABASE_URL explicitly in environment
+          DATABASE_URL=$(heroku config:get DATABASE_URL --app "$HEROKU_APP_NAME")
+          heroku config:set DATABASE_URL="$DATABASE_URL" --app "$HEROKU_APP_NAME"
           
           # Run migrations
           heroku run rake db:migrate --app "$HEROKU_APP_NAME"

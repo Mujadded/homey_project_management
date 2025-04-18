@@ -79,10 +79,9 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  url: <%= ENV['DATABASE_URL'] %>
   primary: &primary_production
     <<: *default
+    url: <%= ENV['DATABASE_URL'] %>
     database: homey_project_management_production
     username: homey_project_management
     password: <%= ENV["HOMEY_PROJECT_MANAGEMENT_DATABASE_PASSWORD"] %>
@@ -94,7 +93,4 @@ production:
     <<: *primary_production
     database: homey_project_management_production_queue
     migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: homey_project_management_production_cable
-    migrations_paths: db/cable_migrate
+  # cable connection removed as we're not using SolidCable
