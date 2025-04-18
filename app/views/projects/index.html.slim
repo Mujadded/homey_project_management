@@ -1,0 +1,16 @@
+.py-8
+  .flex.justify-between.items-center.mb-8
+    h1.text-3xl.font-bold.text-gray-800 Projects
+    = link_to "New Project", new_project_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 ease-in-out shadow-md"
+  
+  .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
+    - @projects.each do |project|
+      .bg-white.shadow-md.rounded-lg.overflow-hidden.transition-all.duration-200.hover:shadow-lg.border.border-gray-100
+        .p-6
+          h2.text-xl.font-semibold.mb-3.text-gray-800 = project.title
+          p.text-gray-600.mb-4.text-sm.h-20.overflow-hidden = project.description
+          
+          .flex.flex-col.space-y-3
+            .flex.justify-between.items-center
+              span.px-3.py-1.rounded-full.text-sm.font-medium class=status_color(project.status) = project.status
+              = link_to "View Details", project_path(project), class: "text-blue-600 hover:text-blue-800 font-medium"

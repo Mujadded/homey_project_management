@@ -1,0 +1,7 @@
+h1.text-2xl.font-bold.mb-4 Edit Project
+
+= render 'form', project: @project
+
+.mt-4.flex.gap-4
+  = link_to "Show", @project, class: "text-blue-500 hover:underline"
+  = link_to "Back", projects_path, class: "text-blue-500 hover:underline" 

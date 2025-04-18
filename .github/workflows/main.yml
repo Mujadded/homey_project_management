@@ -1,0 +1,74 @@
+name: Homey Project Management CI/CD
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: homey_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.3.2
+        bundler-cache: true
+
+    - name: Install dependencies
+      run: |
+        bundle install
+        
+    - name: Set up database
+      env:
+        RAILS_ENV: test
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/homey_test
+      run: |
+        bundle exec rails db:create
+        bundle exec rails db:schema:load
+        
+    - name: Run tests
+      env:
+        RAILS_ENV: test
+        DATABASE_URL: postgres://postgres:postgres@localhost:5432/homey_test
+      run: |
+        bundle exec rspec
+        
+    - name: Run linters
+      run: |
+        bundle exec rubocop
+
+  # Deployment job example for Heroku (will comment out until needed)
+  # deploy:
+  #   needs: test
+  #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     
+  #     - name: Deploy to Heroku Production
+  #       uses: akhileshns/heroku-deploy@v3.12.14
+  #       with:
+  #         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+  #         heroku_app_name: "homey-project-mgmt-prod"
+  #         heroku_email: ${{ secrets.HEROKU_EMAIL }}
+  #         
+
