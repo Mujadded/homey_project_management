@@ -10,21 +10,21 @@ RSpec.describe User, type: :model do
 
   # Associations
   describe "associations" do
-    it { should have_many(:project_events).dependent(:destroy) }
+    it { is_expected.to have_many(:project_events).dependent(:destroy) }
   end
 
   # Validations
   describe "validations" do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:role) }
-    it { should validate_presence_of(:email) }
-    it { should validate_uniqueness_of(:email).case_insensitive }
-    it { should validate_presence_of(:password) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_presence_of(:role) }
+    it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive }
+    it { is_expected.to validate_presence_of(:password) }
   end
 
   # Enums
   describe "enums" do
-    it { should define_enum_for(:role).with_values(member: "member", pm: "pm", admin: "admin").backed_by_column_of_type(:string) }
+    it { is_expected.to define_enum_for(:role).with_values(member: "member", pm: "pm", admin: "admin").backed_by_column_of_type(:string) }
   end
 
   # Methods and business logic
@@ -51,4 +51,4 @@ RSpec.describe User, type: :model do
       expect(member.member?).to be true
     end
   end
-end 
+end
