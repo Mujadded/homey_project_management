@@ -1,0 +1,9 @@
+en:
+  shared:
+    notices:
+      created: "%{model} was successfully created."
+      updated: "%{model} was successfully updated."
+      destroyed: "%{model} was successfully destroyed."
+  
+  authorization:
+    failure: "You are not authorized to perform this action." 

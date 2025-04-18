@@ -96,7 +96,7 @@ RSpec.describe 'Authentication', type: :system do
     it 'has a link from sign in to sign up page' do
       visit new_user_session_path
 
-      click_link 'Sign up'
+      click_link 'sign-up-link'
 
       expect(page).to have_current_path(new_user_registration_path)
     end
@@ -104,7 +104,7 @@ RSpec.describe 'Authentication', type: :system do
     it 'has a link from sign up to sign in page' do
       visit new_user_registration_path
 
-      click_link 'Sign in'
+      click_link 'sign-in-link'
 
       expect(page).to have_current_path(new_user_session_path)
     end

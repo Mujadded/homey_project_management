@@ -1,27 +1,10 @@
 en:
-  hello: "Hello world"
-  projects:
-    create:
-      success: "Project was successfully created."
-    update:
-      success: "Project was successfully updated."
-    destroy:
-      success: "Project was successfully deleted."
-    update_status:
-      success: "Project status was successfully updated."
-      failure: "Failed to update project status."
-    authorization:
-      failure: "You are not authorized to perform this action."
-
-  project_events:
-    create:
-      success: "Comment was successfully added."
-      failure: "Failed to add comment."
-
-  project_events_controller:
-    create:
-      success: "Comment was successfully added."
-      failure: "Failed to add comment."
-
-  authorization:
-    failure: "You are not authorized to perform this action."
+  application:
+    name: "Homey Project Management"
+    footer:
+      copyright: "© %{year} Homey Project Management. All rights reserved."
+  
+  navigation:
+    projects: "Projects"
+    sign_in: "Sign in"
+    sign_out: "Sign Out"

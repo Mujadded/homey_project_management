@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title Homey Project Management
+    title = t('application.name')
     meta name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
@@ -17,12 +17,12 @@ html
           .flex.items-center
             = link_to root_path, class: "flex items-center" do
               i.fas.fa-tasks.text-blue-600.text-2xl.mr-3
-              h1.text-xl.font-bold.text-gray-800 Homey Project Management
+              h1.text-xl.font-bold.text-gray-800 = t('application.name')
           
           - if user_signed_in?
             .flex.items-center.gap-6
               .hidden.md:flex.gap-4
-                = link_to "Projects", projects_path, class: "text-gray-600 hover:text-blue-600 font-medium"
+                = link_to t('navigation.projects'), projects_path, class: "text-gray-600 hover:text-blue-600 font-medium"
               
               .flex.items-center.gap-4
                 .flex.items-center.gap-2
@@ -32,10 +32,10 @@ html
                   span.text-gray-500.text-xs = "(#{current_user.role.humanize})"
                   = button_to destroy_user_session_path, method: :delete, class: "ml-4 text-red-500 hover:text-red-700" do
                     i.fas.fa-sign-out-alt.mr-1
-                    | Sign Out
+                    = t('navigation.sign_out')
           - else
             .flex.items-center.gap-4
-              = link_to "Sign In", new_user_session_path, class: "text-blue-600 hover:text-blue-800 font-medium"
+              = link_to t('navigation.sign_in'), new_user_session_path, class: "text-blue-600 hover:text-blue-800 font-medium"
     
     main.pb-8
       .container.mx-auto.px-4
@@ -51,4 +51,4 @@ html
     footer.bg-white.border-t.border-gray-200.py-4.mt-8
       .container.mx-auto.px-4
         .text-center.text-gray-500.text-sm
-          | © #{Date.today.year} Homey Project Management. All rights reserved.
+          = t('application.footer.copyright', year: Date.today.year)

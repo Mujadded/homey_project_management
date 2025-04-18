@@ -1,0 +1,43 @@
+en:
+  projects:
+    index:
+      heading: "Projects"
+      new_project: "New Project"
+      id: "ID"
+      project_title: "Title"
+      status: "Status"
+      created_at: "Created"
+      actions: "Actions"
+    
+    show:
+      project_title: "%{title}"
+      status: "Status"
+      description: "Description"
+      project_events: "Project Events"
+      add_comment: "Add Comment"
+      change_status: "Change Status"
+      back: "Back to Projects"
+    
+    new:
+      heading: "New Project"
+      back: "Back to Projects"
+    
+    edit:
+      heading: "Edit Project"
+      back: "Back to Project"
+    
+    form:
+      project_title: "Title"
+      description: "Description"
+      status: "Status"
+      submit: "Save Project"
+      
+    create:
+      success: "Project was successfully created."
+    update:
+      success: "Project was successfully updated."
+    destroy:
+      success: "Project was successfully deleted."
+    update_status:
+      success: "Project status was successfully updated."
+      failure: "Failed to update project status." 

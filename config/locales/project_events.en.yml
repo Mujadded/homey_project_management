@@ -1,0 +1,9 @@
+en:
+  project_events:
+    comment:
+      submit: "Post Comment"
+    status_change:
+      submit: "Update Status"
+    create:
+      success: "Comment was successfully added."
+      failure: "Failed to add comment." 

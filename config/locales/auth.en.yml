@@ -1,0 +1,21 @@
+en:
+  auth:
+    sign_in:
+      title: "Sign in"
+      email: "Email"
+      password: "Password"
+      remember_me: "Remember me"
+      submit: "Sign in"
+      no_account: "Don't have an account?"
+      sign_up: "Sign up"
+    
+    sign_up:
+      title: "Sign Up"
+      name: "Name"
+      email: "Email"
+      password: "Password"
+      password_confirmation: "Password confirmation"
+      password_length: "%{length} characters minimum"
+      submit: "Sign up"
+      have_account: "Already have an account?"
+      sign_in: "Sign in" 
