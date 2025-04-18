@@ -2,9 +2,9 @@ name: Homey Project Management CI/CD
 
 on:
   push:
-    branches: [ main, master, develop ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master, develop ]
+    branches: [ main ]
 
 jobs:
   test:
@@ -47,6 +47,13 @@ jobs:
         bundle exec rails db:create
         bundle exec rails db:schema:load
         
+    - name: Precompile assets
+      env:
+        RAILS_ENV: test
+      run: |
+        bundle exec rails tailwindcss:build
+        bundle exec rails assets:precompile
+        
     - name: Run tests
       env:
         RAILS_ENV: test
@@ -61,7 +68,7 @@ jobs:
   # Deployment job example for Heroku (commented out until needed)
   # deploy:
   #   needs: test
-  #   if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+  #   if: github.ref == 'refs/heads/main'
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v3
@@ -72,4 +79,3 @@ jobs:
   #         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
   #         heroku_app_name: "homey-project-mgmt-prod"
   #         heroku_email: ${{ secrets.HEROKU_EMAIL }}
-  #         

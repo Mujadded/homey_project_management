@@ -51,4 +51,13 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.include Devise::Test::ControllerHelpers, type: :controller
+
+  # Handle TailwindCSS asset missing in tests
+  config.before(:each, type: :system) do
+    allow_any_instance_of(ActionView::Base).to receive(:stylesheet_link_tag).and_return("")
+  end
+
+  config.before(:each, type: :request) do
+    allow_any_instance_of(ActionView::Base).to receive(:stylesheet_link_tag).and_return("")
+  end
 end
