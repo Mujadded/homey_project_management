@@ -66,17 +66,16 @@ jobs:
       run: |
         bundle exec rubocop --fail-level fatal
 
-  # Deployment job example for Heroku (commented out until needed)
-  # deploy:
-  #   needs: test
-  #   if: github.ref == 'refs/heads/main'
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     
-  #     - name: Deploy to Heroku Production
-  #       uses: akhileshns/heroku-deploy@v3.12.14
-  #       with:
-  #         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-  #         heroku_app_name: "homey-project-mgmt-prod"
-  #         heroku_email: ${{ secrets.HEROKU_EMAIL }}
+  deploy:
+    needs: test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to Heroku Production
+        uses: akhileshns/heroku-deploy@v3.12.14
+        with:
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: "homey-project-mgmt-prod"
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
