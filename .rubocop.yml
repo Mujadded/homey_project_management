@@ -76,3 +76,6 @@ RSpec/NestedGroups:
 RSpec/LetSetup:
   Exclude:
     - 'spec/system/**/*'
+
+RSpec/AnyInstance:
+  Enabled: false

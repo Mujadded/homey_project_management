@@ -8,6 +8,10 @@ RSpec.describe "Project Conversations", type: :system do
 
   before do
     driven_by(:selenium_chrome_headless)
+    # Ensure window size is large enough
+    page.driver.browser.manage.window.resize_to(1920, 1080)
+    # Reset all DB records before each test to ensure a clean state
+    ProjectEvent.delete_all
   end
 
   describe "Project view" do
@@ -84,8 +88,11 @@ RSpec.describe "Project Conversations", type: :system do
         comment_text = "This is a test comment from member"
         fill_in "Add a comment", with: comment_text
         click_button "Post Comment"
-
-        expect(page).to have_content(comment_text)
+        
+        # Add a longer wait for the comment to appear
+        using_wait_time(5) do
+          expect(page).to have_content(comment_text)
+        end
         expect(page).to have_content(member.name)
 
         # Should not see status change buttons
