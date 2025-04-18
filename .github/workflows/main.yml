@@ -66,6 +66,7 @@ jobs:
       run: |
         bundle exec rubocop --fail-level fatal
 
+  # Deployment job for Heroku
   deploy:
     needs: test
     if: github.ref == 'refs/heads/main'
@@ -73,9 +74,29 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Deploy to Heroku Production
-        uses: akhileshns/heroku-deploy@v3.12.14
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "homey-project-mgmt-prod"
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+      
+      - name: Login to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku container:login
+      
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: "homey-project-mgmt-prod"
+        run: |
+          # Check if app exists
+          if ! heroku apps:info $HEROKU_APP_NAME &> /dev/null; then
+            echo "Creating Heroku app $HEROKU_APP_NAME"
+            heroku apps:create $HEROKU_APP_NAME
+          fi
+          
+          # Deploy code
+          git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git main
+          
+          # Run migrations
+          heroku run rake db:migrate --app $HEROKU_APP_NAME
