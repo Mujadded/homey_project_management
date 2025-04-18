@@ -17,6 +17,9 @@ RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [ Rails.root.join("spec/fixtures") ]
 
+  # Include FactoryBot methods
+  config.include FactoryBot::Syntax::Methods
+
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
@@ -59,5 +62,12 @@ RSpec.configure do |config|
 
   config.before(:each, type: :request) do
     allow_any_instance_of(ActionView::Base).to receive(:stylesheet_link_tag).and_return("")
+  end
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
   end
 end

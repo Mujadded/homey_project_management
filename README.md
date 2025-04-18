@@ -2,6 +2,11 @@
 
 A project management system with conversation history, allowing users to comment on projects and track status changes.
 
+## Live Demo
+
+- GitHub Repository: [https://github.com/Mujadded/homey_project_management](https://github.com/Mujadded/homey_project_management)
+- Live Application: [https://homey-project-mgmt-prod-994ca5a27e81.herokuapp.com/](https://homey-project-mgmt-prod-994ca5a27e81.herokuapp.com/)
+
 ## Features
 
 - User authentication with role-based access control (admin, project manager, team member)
@@ -34,7 +39,7 @@ A project management system with conversation history, allowing users to comment
 
 1. Clone the repository
 ```
-git clone https://github.com/yourusername/homey_project_management.git
+git clone https://github.com/Mujadded/homey_project_management.git
 cd homey_project_management
 ```
 
@@ -78,12 +83,9 @@ The project uses GitHub Actions for continuous integration and deployment:
 
 ## Deployment
 
-The application is ready to be deployed to Heroku. To enable automatic deployment:
+The application is deployed to Heroku. The CI/CD pipeline automatically deploys changes from the main branch to the production environment.
 
-1. Create Heroku apps for production and sandbox environments
-2. Add HEROKU_API_KEY and HEROKU_EMAIL as GitHub repository secrets
-3. Uncomment the deployment sections in .github/workflows/main.yml
-4. Push to develop branch to deploy to sandbox, or main/master to deploy to production
+- Production URL: [https://homey-project-mgmt-prod-994ca5a27e81.herokuapp.com/](https://homey-project-mgmt-prod-994ca5a27e81.herokuapp.com/)
 
 ## License
 
