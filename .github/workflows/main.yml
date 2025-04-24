@@ -66,36 +66,36 @@ jobs:
       run: |
         bundle exec rubocop --fail-level fatal
 
-  deploy:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+  # deploy:
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         fetch-depth: 0
           
-      - name: Install Heroku CLI
-        run: |
-          curl https://cli-assets.heroku.com/install.sh | sh
+  #     - name: Install Heroku CLI
+  #       run: |
+  #         curl https://cli-assets.heroku.com/install.sh | sh
           
-      - name: Deploy to Heroku
-        uses: akhileshns/heroku-deploy@v3.14.15
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: "homey-project-mgmt-prod"
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+  #     - name: Deploy to Heroku
+  #       uses: akhileshns/heroku-deploy@v3.14.15
+  #       with:
+  #         heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+  #         heroku_app_name: "homey-project-mgmt-prod"
+  #         heroku_email: ${{ secrets.HEROKU_EMAIL }}
           
-      - name: Configure database and run migrations
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP_NAME: "homey-project-mgmt-prod"
-        run: |
-          # Ensure PostgreSQL addon is provisioned
-          heroku addons:create heroku-postgresql:essential-0 --app "$HEROKU_APP_NAME" || true
+  #     - name: Configure database and run migrations
+  #       env:
+  #         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+  #         HEROKU_APP_NAME: "homey-project-mgmt-prod"
+  #       run: |
+  #         # Ensure PostgreSQL addon is provisioned
+  #         heroku addons:create heroku-postgresql:essential-0 --app "$HEROKU_APP_NAME" || true
           
-          # Set DATABASE_URL explicitly in environment
-          DATABASE_URL=$(heroku config:get DATABASE_URL --app "$HEROKU_APP_NAME")
-          heroku config:set DATABASE_URL="$DATABASE_URL" --app "$HEROKU_APP_NAME"
+  #         # Set DATABASE_URL explicitly in environment
+  #         DATABASE_URL=$(heroku config:get DATABASE_URL --app "$HEROKU_APP_NAME")
+  #         heroku config:set DATABASE_URL="$DATABASE_URL" --app "$HEROKU_APP_NAME"
           
-          # Run migrations
-          heroku run rake db:migrate --app "$HEROKU_APP_NAME"
+  #         # Run migrations
+  #         heroku run rake db:migrate --app "$HEROKU_APP_NAME"
